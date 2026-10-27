@@ -4,15 +4,20 @@ setlocal
 cd /d "%~dp0"
 where node >nul 2>nul
 if errorlevel 1 (
- echo Для запуска нужен Node.js 24 LTS.
+ echo Для запуска нужен Node.js 24.
  echo Установите его с https://nodejs.org/ и запустите этот файл снова.
- pause
- exit /b 1
+ goto failed
 )
 if not exist "dist\index.html" (
- echo Не найдена готовая сборка dist. Восстановите её командой npm.cmd run build.
- pause
- exit /b 1
+ echo Первый запуск исходников: установка бесплатных зависимостей и сборка.
+ call npm.cmd ci --no-audit --no-fund
+ if errorlevel 1 goto failed
+ call npm.cmd run build
+ if errorlevel 1 goto failed
 )
 node server.mjs --open
-if errorlevel 1 pause
+if errorlevel 1 goto failed
+exit /b 0
+:failed
+pause
+exit /b 1
