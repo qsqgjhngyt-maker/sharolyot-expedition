@@ -1,0 +1,22 @@
+{
+  "name": "sharolyot-expedition",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "tsc --noEmit && vite build && node scripts/build-pwa.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "test": "node --experimental-strip-types --test tests/game.test.ts tests/campaign.test.ts",
+    "test:pwa": "node --experimental-strip-types --test tests/pwa.test.ts",
+    "check": "npm run build && npm test && npm run test:pwa"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.183.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}
